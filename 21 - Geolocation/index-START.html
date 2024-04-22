@@ -60,6 +60,17 @@
     /*Compass: https://thenounproject.com/search/?q=compass&i=592352*/
   </style>
   <script>
+    const arrow = document.querySelector('.arrow')
+    const speed = document.querySelector('.speed-value')
+
+    navigator.geolocation.watchPosition((data) => {
+      speed.textContent = data.coords.speed
+      arrow.style.transform = `rotate(${data.coords.heading}deg)`
+      console.log(data)
+    }, (err) => {
+      console.err(err);
+      alert('You did not allow it to happen')
+    })
   </script>
 </body>
 </html>

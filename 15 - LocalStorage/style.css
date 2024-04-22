@@ -79,3 +79,9 @@ h2 {
   outline: 0;
   border: 1px solid rgba(0, 0, 0, 0.1);
 }
+
+.deleteBtn {
+  background: rgba(0, 0, 0, 0);
+  border: none;
+  scale: 80%;
+}

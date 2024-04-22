@@ -2,11 +2,29 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Key Detection</title>
-    <script type="text/javascript" src="./cornify.js"></script>
+    <title>KONAMI CODE</title>
     <link rel="icon" href="https://fav.farm/🔥" />
   </head>
   <body>
-    <script></script>
+    <script>
+      const pressed = [];
+      const konamiCode = 'ArrowUp'+'ArrowUp'+'ArrowDown'+'ArrowDown'+'ArrowLeft'+'ArrowRight'+'ArrowLeft'+'ArrowRight'+'b'+'a'+'Enter';
+      window.addEventListener('keyup', (e) => {
+        pressed.push(e.key)
+            if(pressed.length > 11) {
+                pressed.shift() //just remove the first element (the oldest one), so you always have the same number of elements as in the sequence string
+            }
+            //then just compare both
+            if(pressed.join('') === konamiCode){
+             document.body.style.backgroundImage = "url('Konami.png')"
+             document.body.style.backgroundRepeat = "no-repeat"
+             document.body.style.backgroundPosition = "center"
+             document.body.style.backgroundAttachment = 'fixed'
+            //  console.log('KONAMI')
+            }
+            // console.log(pressed)
+
+      })
+    </script>
   </body>
 </html>

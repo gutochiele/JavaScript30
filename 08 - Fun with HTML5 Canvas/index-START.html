@@ -8,9 +8,76 @@
 <body>
 <canvas id="draw" width="800" height="800"></canvas>
 <script>
+  const canvas = document.querySelector('#draw');
+  const myContext = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  myContext.strokeStyle = "#BADASS";
+  myContext.lineJoin = 'round';
+  myContext.lineCap = 'round';
+  myContext.lineWidth = 10;
+
+  let drawingContent = [];
+  let isDrawing = false;
+  let lastX = 0;
+  let lastY = 0;
+  let hue = 0;
+  let direction = true;
+
+  function draw(e){
+    if (!isDrawing) return;
+    myContext.strokeStyle = `hsl(${hue}, 100%, 50%)`; 
+    myContext.beginPath();
+    myContext.moveTo(lastX, lastY);
+    myContext.lineTo(e.offsetX, e.offsetY);
+    myContext.stroke();
+    [lastX, lastY] = [e.offsetX, e.offsetY];
+    hue++;
+    if(hue >= 360){
+      hue = 0;
+    }
+    if(myContext.lineWidth >= 50 || myContext.lineWidth <= 1){
+      direction = !direction;
+    }
+    if(direction){
+      myContext.lineWidth++;
+    } else {
+      myContext.lineWidth--;
+    }
+  }
+
+  canvas.addEventListener('mousedown', (e) => {
+    isDrawing = true;
+    [lastX, lastY] = [e.offsetX, e.offsetY];
+
+  });
+  canvas.addEventListener('mousemove', draw);
+  canvas.addEventListener('mouseup', () => isDrawing = false);
+  canvas.addEventListener('mouseout', () => isDrawing = false);
+  window.addEventListener("resize", resizeCanvas, false);
+  
+
+  function resizeCanvas() {
+  const tempCanvas = document.createElement('canvas'); // Create temporary canvas
+  tempCanvas.width = canvas.width;
+  tempCanvas.height = canvas.height;
+  const tempContext = tempCanvas.getContext('2d');
+  tempContext.drawImage(canvas, 0, 0); // Copy current content to temporary canvas
+  canvas.width = window.innerWidth; // Resize main canvas
+  canvas.height = window.innerHeight;
+  myContext.strokeStyle = "#BADASS";
+  myContext.lineJoin = 'round';
+  myContext.lineCap = 'round';
+  myContext.lineWidth = 10;
+  myContext.drawImage(tempCanvas, 0, 0); // Redraw content onto resized canvas
+  }
+  
 </script>
 
 <style>
+  canvas {
+  display: block;
+}
   html, body {
     margin: 0;
   }
